@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profilpage_cupertino_inisiated/custom/costum_text.dart';
 import 'package:flutter_profilpage_cupertino_inisiated/custom/custom_button.dart';
+import 'package:flutter_profilpage_cupertino_inisiated/edit_profile.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -18,7 +19,10 @@ class _ProfilePageState extends State<ProfilePage> {
             Icons.add,
             color: Colors.black,
           ),
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => EditProfile()));
+          },
         ),
         middle: Container(
           margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
