@@ -5,6 +5,9 @@ import 'package:flutter_profilpage_cupertino_inisiated/custom/custom_button.dart
 import 'package:flutter_profilpage_cupertino_inisiated/edit_profile.dart';
 
 class ProfilePage extends StatefulWidget {
+  final String name = "Your Name";
+
+  ProfilePage({@required this.name});
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -80,7 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Container(
                     margin: EdgeInsets.fromLTRB(20, 0, 0, 15),
                     child: Text(
-                      "Your Name",
+                      widget.name,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                     ))),
@@ -97,8 +100,37 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomButton(text: "Edit Profile", onProcessed: () {}),
-                  CustomButton(text: "Promotions", onProcessed: () {}),
+                  CustomButton(
+                      text: "Edit Profile",
+                      onProcessed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditProfile()));
+                      }),
+                  CustomButton(
+                      text: "Promotions",
+                      onProcessed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                CupertinoAlertDialog(
+                                  title: Text('Profile Changed'),
+                                  content:
+                                      Text("Do you want to save your edits"),
+                                  actions: [
+                                    CupertinoDialogAction(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Cancel')),
+                                    CupertinoDialogAction(
+                                        onPressed: () {}, child: Text('Save'))
+                                  ],
+                                ),
+                            barrierColor: Colors.black.withOpacity(0.8),
+                            barrierDismissible: false);
+                      }),
                   CustomButton(text: "Insights", onProcessed: () {}),
                 ],
               ),
