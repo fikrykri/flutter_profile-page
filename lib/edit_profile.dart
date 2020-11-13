@@ -1,8 +1,17 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_profilpage_cupertino_inisiated/profile.dart';
 
 class EditProfile extends StatefulWidget {
+  final String id, name, desc, photoUrl;
+
+  EditProfile(
+      {@required this.name,
+      @required this.id,
+      @required this.desc,
+      @required this.photoUrl});
+
   @override
   _EditProfileState createState() => _EditProfileState();
 }
@@ -13,25 +22,6 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController descController = new TextEditingController();
   TextEditingController photoController = new TextEditingController();
   final globalKey = GlobalKey<ScaffoldState>();
-
-  showAlertDialogCupertino(text) {
-    showDialog(
-        context: globalKey.currentContext,
-        builder: (_) => CupertinoAlertDialog(
-              title: Text('Profile Changed'),
-              content: Text(text),
-              actions: [
-                CupertinoDialogAction(
-                    onPressed: () {
-                      Navigator.pop(globalKey.currentContext);
-                    },
-                    child: Text('Cancel')),
-                CupertinoDialogAction(onPressed: () {}, child: Text('Save'))
-              ],
-            ),
-        barrierColor: Colors.black.withOpacity(0.8),
-        barrierDismissible: false);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,20 +51,7 @@ class _EditProfileState extends State<EditProfile> {
             color: Colors.blueAccent,
           ),
           onTap: () {
-            // Do you want to save your edits ?
-            if (nameController.text == '') {
-              // showToast('Please input your name!');
-              // showSnackBar('Please input your name!');
-              showAlertDialogCupertino('Please input your name!');
-            } else {
-              // Berpindah halaman ketika di text field memiliki value ke Profile()
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ProfilePage(
-                            name: nameController.text,
-                          )));
-            }
+            showAlertDialogCupertino(context);
           },
         ),
       ),
@@ -160,16 +137,37 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  void AlertCupertino(BuildContext context) {
-    var alert = AlertDialog(
-      title: Text("Test"),
-      content: Text("Done..!"),
-    );
-
+  void showAlertDialogCupertino(BuildContext context) {
+    // final context = globalKey.currentState.overlay.context;
     showDialog(
         context: context,
-        builder: (BuildContext context) {
-          return alert;
-        });
+        builder: (context) => CupertinoAlertDialog(
+              // final dialog = CupertinoAlertDialog(
+              title: Text('Profile Changed'),
+              content: Text("Do you want to save your edits ?"),
+              actions: [
+                CupertinoDialogAction(
+                    isDefaultAction: true,
+                    onPressed: () {
+                      Navigator.pop(globalKey.currentContext);
+                    },
+                    child: Text('Cancel')),
+                CupertinoDialogAction(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage(
+                                  name: nameController.text,
+                                  id: idController.text,
+                                  desc: descController.text,
+                                  photoUrl: photoController.text)));
+                    },
+                    child: Text('Save'))
+              ],
+            ),
+        // showDialog(context: context, builder: (x) => dialog);
+        barrierColor: Colors.black.withOpacity(0.8),
+        barrierDismissible: false);
   }
 }
