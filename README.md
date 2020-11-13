@@ -1,4 +1,4 @@
-# flutter_profilpage_cupertino_inisiated
+# flutter_profilpage_cupertino
 
 A new Flutter project.
 
